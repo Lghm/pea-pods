@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Pea Pods",
+    "slug": "pea-pods",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "backgroundColor": "#060E0B"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourname.peapods",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Pea Pods needs your microphone to communicate.",
+        "NSSpeechRecognitionUsageDescription": "Pea Pods uses speech recognition to understand what you say.",
+        "UIBackgroundModes": ["audio", "voip"]
+      }
+    },
+    "android": {
+      "package": "com.yourname.peapods",
+      "versionCode": 1,
+      "permissions": ["RECORD_AUDIO", "INTERNET", "MODIFY_AUDIO_SETTINGS"]
+    },
+    "plugins": [
+      "expo-dev-client",
+      ["expo-av", { "microphonePermission": "Pea Pods needs your microphone to communicate." }]
+    ]
+  }
+}
