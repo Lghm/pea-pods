@@ -103,7 +103,7 @@ export function SubscribeScreen({ onBack }) {
   return (
     <SafeAreaView style={sub.root}>
       <View style={sub.inner}>
-        <Image source={require('../../assets/PeaPods_title.PNG')} style={sub.logo} resizeMode="contain" />
+        <Image source={require('../../assets/PeaPods_title.png')} style={sub.logo} resizeMode="contain" />
         <Text style={sub.desc}>Your 3-day free trial has ended.</Text>
         <View style={sub.card}>
           <Text style={sub.planName}>Weekly Plan</Text>
