@@ -16,17 +16,41 @@
       "infoPlist": {
         "NSMicrophoneUsageDescription": "Pea Pods needs your microphone to communicate.",
         "NSSpeechRecognitionUsageDescription": "Pea Pods uses speech recognition to understand what you say.",
-        "UIBackgroundModes": ["audio", "voip"]
+        "UIBackgroundModes": [
+          "audio",
+          "voip",
+          "audio",
+          "voip"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "package": "com.yourname.peapods",
       "versionCode": 1,
-      "permissions": ["RECORD_AUDIO", "INTERNET", "MODIFY_AUDIO_SETTINGS"]
+      "permissions": [
+        "RECORD_AUDIO",
+        "INTERNET",
+        "MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "plugins": [
       "expo-dev-client",
-      ["expo-av", { "microphonePermission": "Pea Pods needs your microphone to communicate." }]
-    ]
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Pea Pods needs your microphone to communicate."
+        }
+      ],
+      "expo-asset"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "66c91214-cca4-4edf-a345-3052317a520d"
+      }
+    },
+    "owner": "happyl"
   }
 }
