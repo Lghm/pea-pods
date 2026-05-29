@@ -9,14 +9,21 @@ wss.on('connection', (ws) => {
     let msg; try { msg = JSON.parse(raw); } catch { return; }
     const { type, code } = msg;
     if (type === 'create') {
-      if (rooms.has(code)) { ws.send(JSON.stringify({ type: 'error', message: 'Room exists. Try again.' })); return; }
+      if (rooms.has(code)) {
+        const old = rooms.get(code);
+        try { old.host?.close(); } catch(_) {}
+        try { old.guest?.close(); } catch(_) {}
+        rooms.delete(code);
+      }
       myCode = code; myRole = 'host';
       rooms.set(code, { host: ws, guest: null });
       ws.send(JSON.stringify({ type: 'created', code }));
     } else if (type === 'join') {
       const room = rooms.get(code);
       if (!room) { ws.send(JSON.stringify({ type: 'error', message: 'Room not found.' })); return; }
-      if (room.guest) { ws.send(JSON.stringify({ type: 'error', message: 'Room is full.' })); return; }
+      if (room.guest && room.guest.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({ type: 'error', message: 'Room is full.' })); return;
+      }
       myCode = code; myRole = 'guest'; room.guest = ws;
       room.host.send(JSON.stringify({ type: 'guest-joined' }));
       ws.send(JSON.stringify({ type: 'joined' }));
@@ -30,7 +37,8 @@ wss.on('connection', (ws) => {
     if (!myCode) return;
     const room = rooms.get(myCode); if (!room) return;
     const other = myRole === 'host' ? room.guest : room.host;
-    if (other?.readyState === WebSocket.OPEN) other.send(JSON.stringify({ type: 'peer-disconnected' }));
+    if (other?.readyState === WebSocket.OPEN)
+      other.send(JSON.stringify({ type: 'peer-disconnected' }));
     rooms.delete(myCode);
   });
   ws.on('error', () => {});
