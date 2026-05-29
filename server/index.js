@@ -1,8 +1,22 @@
 const WebSocket = require('ws');
+const http = require('http');
+
 const PORT = process.env.PORT || 8080;
-const wss  = new WebSocket.Server({ port: PORT });
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('CoPea signalling server OK');
+});
+
+const wss = new WebSocket.Server({ server });
 const rooms = new Map();
+
 console.log(`CoPea signaling server on port ${PORT}`);
+
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Listening on port ${PORT}`);
+});
+
 wss.on('connection', (ws) => {
   let myCode = null, myRole = null;
   ws.on('message', (raw) => {
